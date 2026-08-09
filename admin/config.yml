@@ -43,6 +43,15 @@ app_title: Claudia Painting
 media_folder: fotos
 public_folder: /fotos
 
+## Limpia el nombre del archivo al subirlo: quita acentos, eñes y
+## signos raros. Así una foto llamada "Casa Señora Pérez (1).jpg"
+## se guarda como "casa-senora-perez-1.jpg" y no rompe la dirección
+## web. Ella no tiene que renombrar nada a mano.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+
 ## se muestra el sitio real al dar clic en "Ver el sitio"
 site_url: https://claudiapainting.com
 
