@@ -34,7 +34,7 @@
   "image": "logo.png",
   "logo": "logo.png",
   "description": "Residential interior and exterior painting company.",
-  "telephone": "+1-504-339-2155",
+  "telephone": ["+1-504-339-2155", "+1-629-207-2652"],
   "priceRange": "$$",
   "areaServed": "United States",
   "knowsLanguage": ["en", "es"],
@@ -619,6 +619,27 @@ details .answer{padding:0 1.6rem 1.5rem;font-size:.92rem;color:var(--gray);line-
 .cinfo-item h4{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:.35rem}
 .cinfo-item p,.cinfo-item a{font-size:.94rem;color:var(--gray);text-decoration:none;line-height:1.6;display:block}
 .cinfo-item a:hover{color:var(--leaf)}
+
+/* los dos teléfonos, cada uno con WhatsApp y llamada */
+.tel-note{font-size:.8rem!important;color:var(--slate)!important;margin-bottom:.7rem}
+.tel-list{list-style:none;display:grid;gap:.6rem}
+.tel-list li{
+  display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap;
+  background:var(--cream);border:1px solid var(--line);border-radius:12px;
+  padding:.6rem .55rem .6rem .85rem;
+}
+.tel-num{font-size:.94rem;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.tel-acts{display:flex;gap:.4rem}
+.tel-act{
+  display:inline-flex!important;align-items:center;gap:.34rem;
+  font-size:.74rem!important;font-weight:600;text-decoration:none;
+  padding:.36rem .7rem;border-radius:999px;
+  border:1px solid var(--line-2);background:#fff;color:var(--slate)!important;
+  transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease);
+}
+.tel-act:hover{transform:translateY(-1px);border-color:var(--ink);color:var(--ink)!important}
+.tel-act.is-wa{background:var(--wa);border-color:transparent;color:#06301a!important}
+.tel-act.is-wa:hover{background:#31e274;color:#06301a!important}
 
 .form-card{
   background:#fff;border-radius:var(--r-xl);padding:clamp(1.8rem,3vw,2.8rem);
@@ -1320,8 +1341,35 @@ footer::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;back
           </div>
           <div>
             <h4 data-i18n="ct_phone">WhatsApp / Phone</h4>
-            <a href="tel:+15043392155">+1 (504) 339-2155</a>
-            <a href="tel:+16292072652">+1 (629) 207-2652</a>
+            <p class="tel-note" data-i18n="ct_both">Both numbers take WhatsApp messages and calls.</p>
+            <ul class="tel-list">
+              <li>
+                <span class="tel-num">+1 (504) 339-2155</span>
+                <span class="tel-acts">
+                  <a href="https://wa.me/15043392155?text=Hi%20Claudia%20Painting!%20I%27d%20like%20a%20free%20estimate." target="_blank" rel="noopener" class="tel-act is-wa">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.555 4.118 1.528 5.849L.057 23.428c-.073.282.202.537.48.453l5.716-1.498A11.951 11.951 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.511-5.18-1.402l-.371-.22-3.839 1.006 1.024-3.74-.242-.385A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                    <span data-i18n="tel_wa">WhatsApp</span>
+                  </a>
+                  <a href="tel:+15043392155" class="tel-act">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z"/></svg>
+                    <span data-i18n="tel_call">Call</span>
+                  </a>
+                </span>
+              </li>
+              <li>
+                <span class="tel-num">+1 (629) 207-2652</span>
+                <span class="tel-acts">
+                  <a href="https://wa.me/16292072652?text=Hi%20Claudia%20Painting!%20I%27d%20like%20a%20free%20estimate." target="_blank" rel="noopener" class="tel-act is-wa">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.555 4.118 1.528 5.849L.057 23.428c-.073.282.202.537.48.453l5.716-1.498A11.951 11.951 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.655-.511-5.18-1.402l-.371-.22-3.839 1.006 1.024-3.74-.242-.385A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                    <span data-i18n="tel_wa">WhatsApp</span>
+                  </a>
+                  <a href="tel:+16292072652" class="tel-act">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8.1 9.7a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z"/></svg>
+                    <span data-i18n="tel_call">Call</span>
+                  </a>
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -1442,7 +1490,7 @@ footer::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;back
         <h4 data-i18n="f_contact">Contact</h4>
         <ul>
           <li><a href="https://wa.me/15043392155" target="_blank" rel="noopener">WhatsApp +1 (504) 339-2155</a></li>
-          <li><a href="tel:+16292072652">+1 (629) 207-2652</a></li>
+          <li><a href="https://wa.me/16292072652" target="_blank" rel="noopener">WhatsApp +1 (629) 207-2652</a></li>
           <li><a href="#contact" data-i18n="f_estimate">Request a free estimate</a></li>
           <li><span data-i18n="ct_hours_v">Monday – Saturday · 8:00 AM – 6:00 PM</span></li>
         </ul>
@@ -1702,7 +1750,10 @@ footer::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;back
 
     ct_eyebrow:'Contáctenos', ct_title:'Hablemos de <em>su proyecto</em>',
     ct_lede:'Cuéntenos qué necesita y le respondemos lo antes posible.',
-    ct_phone:'WhatsApp / Teléfono', ct_hours:'Horario', ct_hours_v:'Lunes a sábado · 8:00 AM – 6:00 PM',
+    ct_phone:'WhatsApp / Teléfono',
+    ct_both:'A los dos números puede escribirles por WhatsApp o llamarles.',
+    tel_wa:'WhatsApp', tel_call:'Llamar',
+    ct_hours:'Horario', ct_hours_v:'Lunes a sábado · 8:00 AM – 6:00 PM',
     ct_serve:'Qué hacemos', ct_serve_v:'Solo residencial — pintura interior y exterior',
     ct_lang:'Idiomas', ct_lang_v:'Español e inglés', ct_wa:'Escríbanos por WhatsApp',
 
