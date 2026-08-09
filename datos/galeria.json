@@ -1,7 +1,7 @@
 {
   "fotos": [
     {
-      "imagen": "/exterior.jpg",
+      "imagen": "/fotos/exterior.jpg",
       "categorias": ["exterior"],
       "forma": "3/4",
       "titulo_es": "Porche, columnas y aleros",
@@ -10,7 +10,7 @@
       "descripcion_en": "Exterior · Crisp white on brick"
     },
     {
-      "imagen": "/despues1.jpg",
+      "imagen": "/fotos/despues1.jpg",
       "categorias": ["interior"],
       "forma": "3/4",
       "titulo_es": "Recámara en carbón",
@@ -19,7 +19,7 @@
       "descripcion_en": "Interior · Walls + shiplap ceiling"
     },
     {
-      "imagen": "/interior.jpg",
+      "imagen": "/fotos/interior.jpg",
       "categorias": ["interior"],
       "forma": "4/5",
       "titulo_es": "Sala con techo alto",
@@ -28,7 +28,7 @@
       "descripcion_en": "Interior · Warm greige, ceiling included"
     },
     {
-      "imagen": "/despues3.jpg",
+      "imagen": "/fotos/despues3.jpg",
       "categorias": ["interior"],
       "forma": "1/1",
       "titulo_es": "Techo de cocina y molduras",
@@ -37,7 +37,7 @@
       "descripcion_en": "Interior · Smooth, seamless finish"
     },
     {
-      "imagen": "/antes2.jpg",
+      "imagen": "/fotos/antes2.jpg",
       "categorias": ["exterior", "proceso"],
       "forma": "4/5",
       "titulo_es": "Todo cubierto y listo",
@@ -46,7 +46,7 @@
       "descripcion_en": "Prep · Brick, steps and plants covered"
     },
     {
-      "imagen": "/antes1.jpg",
+      "imagen": "/fotos/antes1.jpg",
       "categorias": ["interior", "proceso"],
       "forma": "1/1",
       "titulo_es": "Madera de pino sin tratar",
@@ -55,7 +55,7 @@
       "descripcion_en": "Prep · Before the first coat"
     },
     {
-      "imagen": "/antes3.jpg",
+      "imagen": "/fotos/antes3.jpg",
       "categorias": ["interior", "proceso"],
       "forma": "3/4",
       "titulo_es": "Techo abierto",
