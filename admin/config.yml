@@ -12,14 +12,13 @@
 backend:
   name: github
 
-  ## ⬇️ CAMBIAR: tu usuario de GitHub y el nombre del repositorio
-  repo: TU-USUARIO/claudia-painting
+  repo: Charlyyy2006/ClaudiaPainting
 
   branch: main
 
-  ## ⬇️ CAMBIAR: la dirección de tu Cloudflare Worker
-  ##    (el que autoriza la entrada — se crea en el paso 3)
-  base_url: https://TU-WORKER.workers.dev
+  ## el Cloudflare Worker que autoriza la entrada.
+  ## Aquí no hay ningún secreto: la llave vive dentro del Worker.
+  base_url: https://sveltia-cms-auth.charlymejia2006.workers.dev
 
   ## mensaje que queda en el historial con cada cambio,
   ## así siempre se sabe quién subió o borró qué foto
