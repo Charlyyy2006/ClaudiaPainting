@@ -29,6 +29,16 @@ backend:
     uploadMedia: 'Sube la imagen "{{path}}" ({{author-name}})'
     deleteMedia: 'Borra la imagen "{{path}}" ({{author-name}})'
 
+## ── Apariencia del panel ───────────────────────────────────
+## Se usa una versión del logo sobre fondo oscuro porque el
+## logo original es blanco sobre transparente: en el tema
+## claro del panel sería invisible. Así se ve bien siempre.
+logo:
+  src: /admin/logo-panel.png
+
+## reemplaza el texto "Sveltia CMS" de la pantalla de entrada
+app_title: Claudia Painting
+
 ## a dónde van las fotos que ella suba
 media_folder: fotos
 public_folder: /fotos
