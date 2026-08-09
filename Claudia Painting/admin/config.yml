@@ -1,0 +1,119 @@
+## ══════════════════════════════════════════════════════════
+##  Panel de fotos — Claudia Painting LLC
+##
+##  IMPORTANTE: en este archivo NO hay ninguna contraseña ni
+##  llave secreta, y no debe haberla nunca. Es un archivo
+##  público. La llave de acceso vive en el Cloudflare Worker.
+##
+##  Quién puede publicar lo decide la lista de colaboradores
+##  del repositorio en GitHub, no este archivo.
+## ══════════════════════════════════════════════════════════
+
+backend:
+  name: github
+
+  ## ⬇️ CAMBIAR: tu usuario de GitHub y el nombre del repositorio
+  repo: TU-USUARIO/claudia-painting
+
+  branch: main
+
+  ## ⬇️ CAMBIAR: la dirección de tu Cloudflare Worker
+  ##    (el que autoriza la entrada — se crea en el paso 3)
+  base_url: https://TU-WORKER.workers.dev
+
+  ## mensaje que queda en el historial con cada cambio,
+  ## así siempre se sabe quién subió o borró qué foto
+  commit_messages:
+    create: 'Agrega {{collection}} "{{slug}}" ({{author-name}})'
+    update: 'Actualiza {{collection}} "{{slug}}" ({{author-name}})'
+    delete: 'Borra {{collection}} "{{slug}}" ({{author-name}})'
+    uploadMedia: 'Sube la imagen "{{path}}" ({{author-name}})'
+    deleteMedia: 'Borra la imagen "{{path}}" ({{author-name}})'
+
+## a dónde van las fotos que ella suba
+media_folder: fotos
+public_folder: /fotos
+
+## se muestra el sitio real al dar clic en "Ver el sitio"
+site_url: https://claudiapainting.com
+
+collections:
+  - name: galeria
+    label: Galería
+    files:
+      - name: fotos
+        label: Fotos de la galería
+        file: datos/galeria.json
+        description: >-
+          Aquí se agregan, quitan y reordenan las fotos que aparecen en la
+          sección "Nuestro trabajo" de la página. Arrastre las tarjetas para
+          cambiar el orden. Los contadores de los filtros se actualizan solos.
+        fields:
+          - name: fotos
+            label: Fotos
+            label_singular: Foto
+            widget: list
+            allow_add: true
+            collapsed: true
+            summary: '{{fields.titulo_es}}'
+            fields:
+
+              - name: imagen
+                label: Foto
+                widget: image
+                required: true
+                hint: >-
+                  Elija una foto de la computadora o del celular. Lo ideal es
+                  que no pese más de 500 KB para que la página cargue rápido.
+
+              - name: titulo_es
+                label: Título (español)
+                widget: string
+                required: true
+                hint: 'Ejemplo: Sala con techo alto'
+
+              - name: descripcion_es
+                label: Descripción corta (español)
+                widget: string
+                required: true
+                hint: 'Ejemplo: Interior · Gris cálido, techo incluido'
+
+              - name: titulo_en
+                label: Título (inglés)
+                widget: string
+                required: true
+                hint: 'Ejemplo: Vaulted living room'
+
+              - name: descripcion_en
+                label: Descripción corta (inglés)
+                widget: string
+                required: true
+                hint: 'Ejemplo: Interior · Warm greige, ceiling included'
+
+              - name: categorias
+                label: Categorías
+                widget: select
+                multiple: true
+                required: true
+                default: ['interior']
+                hint: >-
+                  Decide en qué filtros aparece la foto. Puede marcar más de
+                  una: por ejemplo una foto de preparación de una fachada va
+                  en "Exteriores" y en "Proceso".
+                options:
+                  - { label: 'Interiores', value: 'interior' }
+                  - { label: 'Exteriores', value: 'exterior' }
+                  - { label: 'Proceso (preparación / antes)', value: 'proceso' }
+
+              - name: forma
+                label: Forma de la miniatura
+                widget: select
+                required: true
+                default: '3/4'
+                hint: >-
+                  Cómo se recorta la foto en la cuadrícula. Combinar formas
+                  distintas hace que la galería se vea más bonita.
+                options:
+                  - { label: 'Alta (3/4)', value: '3/4' }
+                  - { label: 'Media (4/5)', value: '4/5' }
+                  - { label: 'Cuadrada (1/1)', value: '1/1' }

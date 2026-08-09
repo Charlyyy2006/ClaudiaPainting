@@ -1,0 +1,51 @@
+## ══════════════════════════════════════════════════════════
+##  Claudia Painting LLC — configuración de Netlify
+## ══════════════════════════════════════════════════════════
+
+[build]
+  ## el sitio es estático: no hay nada que compilar,
+  ## se publica la carpeta tal cual
+  publish = "."
+
+## ── Cabeceras de seguridad para todo el sitio ──────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    ## impide que otro sitio meta la página dentro de un marco
+    ## invisible para engañar a quien da clic (clickjacking)
+    X-Frame-Options = "DENY"
+
+    ## impide que el navegador "adivine" el tipo de archivo
+    ## y ejecute como script algo que no lo es
+    X-Content-Type-Options = "nosniff"
+
+    ## no filtra la dirección completa de la página al salir
+    ## hacia WhatsApp, Formspree u otros sitios
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    ## la página no usa cámara, micrófono, ubicación ni pagos:
+    ## se apagan explícitamente
+    Permissions-Policy = "geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+
+    ## obliga a usar HTTPS durante un año
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+## ── El panel no debe aparecer en Google ────────────────────
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+## ── Cacheo de imágenes ─────────────────────────────────────
+## las fotos no cambian de contenido, solo se agregan nuevas
+[[headers]]
+  for = "/fotos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+## NOTA PENDIENTE — Content-Security-Policy
+## Falta añadir CSP, que es la cabecera más potente de todas.
+## No se incluye todavía a propósito: los estilos y los scripts
+## de index.html van escritos dentro del propio HTML, así que una
+## CSP estricta rompería la página. Hay que sacarlos a archivos
+## .css y .js aparte primero, y probarlo ya publicado.

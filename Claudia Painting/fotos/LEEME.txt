@@ -1,0 +1,62 @@
+CÓMO AGREGAR FOTOS A LA GALERÍA
+================================
+
+1) Ponga la foto en esta carpeta (fotos/).
+   Sugerencia de nombre: casa-lopez-sala-1.jpg
+   - Sin espacios ni acentos en el nombre del archivo.
+   - Tamaño recomendado: 1200 px de ancho aprox. y menos de 500 KB
+     (fotos muy pesadas hacen lenta la página en el celular).
+
+2) Abra index.html y busque la lista que dice:
+
+       var GALLERY = [
+
+   Está cerca del inicio del <script>, al final del archivo.
+
+3) Copie este bloque y péguelo dentro de la lista, antes del corchete "]".
+   No olvide la coma al inicio si lo pone después de otro bloque.
+
+    ,{
+      src:'fotos/casa-lopez-sala-1.jpg',
+      cat:['interior'],
+      ar:'3/4',
+      w:1200, h:1600,
+      en:{ t:'Living room repaint', s:'Interior · Walls, ceiling and trim' },
+      es:{ t:'Sala repintada',      s:'Interior · Paredes, techo y molduras' }
+    }
+
+QUÉ SIGNIFICA CADA CAMPO
+------------------------
+src  = la ruta del archivo. Si está en esta carpeta, va 'fotos/nombre.jpg'
+cat  = categorías del filtro. Puede poner una o varias:
+         'interior'  -> aparece en el filtro Interiores
+         'exterior'  -> aparece en el filtro Exteriores
+         'proceso'   -> aparece en Proceso (fotos de preparación / antes)
+       Ejemplo con dos: cat:['exterior','proceso']
+ar   = forma de la miniatura: '3/4' (alta), '4/5' (media) o '1/1' (cuadrada).
+       Combine distintas formas para que la galería se vea más interesante.
+w, h = ancho y alto reales de la foto en píxeles. Sirven para que la página
+       no "brinque" mientras carga. Si no los sabe, ponga w:1200, h:1600.
+en   = título y subtítulo en inglés.
+es   = título y subtítulo en español.
+
+Los contadores de los filtros (Todos 7, Interiores 5, ...) se actualizan solos.
+No hay que tocar nada más.
+
+
+CÓMO AGREGAR UN "ANTES Y DESPUÉS"
+---------------------------------
+Esa sección es aparte, en el HTML. Busque:
+
+    <!-- ══════════ ANTES Y DESPUÉS ══════════ -->
+
+Copie un bloque completo <article class="ba-card"> ... </article>,
+péguelo debajo del último y cambie:
+  - los src de las dos fotos (antes y después),
+  - el alt de cada <img> (descripción para buscadores y lectores de pantalla),
+  - data-cap / data-sub (texto en inglés al abrir la foto),
+  - data-cap-es / data-sub-es (el mismo texto en español),
+  - el número (01, 02, 03...), el título, la descripción y las etiquetas.
+
+Consejo: para que un antes y después se vea bien, tome las dos fotos
+desde el mismo lugar y con el mismo encuadre.
