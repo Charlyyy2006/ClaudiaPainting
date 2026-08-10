@@ -8,6 +8,63 @@
 <!-- que los buscadores no indexen el panel -->
 <meta name="robots" content="noindex, nofollow"/>
 
+<style>
+/* ══════════════════════════════════════════════════════════
+   Ajustes propios del panel
+
+   En "Antes y después", las dos fotos del mismo proyecto se
+   ponen una al lado de la otra. Apiladas se confunden y no se
+   ve que son pareja.
+
+   Se apunta a los campos por su atributo data-key-path, que
+   termina en el nombre del campo sin importar el número de
+   proyecto (proyectos.0.imagen_antes, proyectos.1.imagen_antes…).
+   ══════════════════════════════════════════════════════════ */
+
+/* El contenedor lo marca el script de abajo. Todos los campos
+   siguen ocupando el ancho completo, menos las dos fotos. */
+[data-ba-row] {
+  display: flex !important;
+  /* el panel puede tener el contenedor en columna: hay que
+     forzar la fila o las fotos siguen quedando apiladas */
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: flex-start;
+  gap: 1rem;
+}
+[data-ba-row] > * {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+[data-ba-row] > [data-key-path$=".imagen_antes"],
+[data-ba-row] > [data-key-path$=".imagen_despues"] {
+  /* base holgada (40%) en vez de ajustada al 50%: con flex-grow
+     se reparten la línea por igual de todos modos, y así ningún
+     redondeo las manda a la línea siguiente */
+  flex: 1 1 40%;
+  min-width: 200px;
+  box-sizing: border-box;
+}
+
+/* etiqueta de color para distinguirlas de un vistazo */
+[data-key-path$=".imagen_antes"] { --ba-color: #c1543a; }
+[data-key-path$=".imagen_despues"] { --ba-color: #3f7a4d; }
+[data-key-path$=".imagen_antes"],
+[data-key-path$=".imagen_despues"] {
+  border-inline-start: 3px solid var(--ba-color);
+  padding-inline-start: .75rem;
+  border-radius: 3px;
+}
+
+/* en pantallas chicas vuelven a apilarse */
+@media (max-width: 700px) {
+  [data-ba-row] > [data-key-path$=".imagen_antes"],
+  [data-ba-row] > [data-key-path$=".imagen_despues"] {
+    flex: 1 1 100%;
+  }
+}
+</style>
+
 <!--
   Versión fijada a propósito (0.183.0).
   NO cambiar a "latest": si alguien comprometiera el paquete, la página
@@ -15,6 +72,38 @@
   se sube el número a mano después de comprobar la nueva versión.
 -->
 <script src="https://unpkg.com/@sveltia/cms@0.183.0/dist/sveltia-cms.js" type="module"></script>
+
+<script>
+/* Marca al contenedor que agrupa los campos de un proyecto de
+   "Antes y después", para que el CSS de arriba pueda ponerlos en
+   fila. Se hace con un observador porque el panel dibuja y
+   redibuja los formularios conforme se abren y cierran tarjetas. */
+(function () {
+  'use strict';
+
+  function marcar() {
+    document.querySelectorAll('[data-key-path$=".imagen_antes"]').forEach(function (campo) {
+      var cont = campo.parentElement;
+      if (!cont || cont.hasAttribute('data-ba-row')) return;
+      /* solo si el hermano "después" está en el mismo contenedor:
+         así no se toca ningún otro formulario por accidente */
+      if (cont.querySelector(':scope > [data-key-path$=".imagen_despues"]')) {
+        cont.setAttribute('data-ba-row', '');
+      }
+    });
+  }
+
+  var pendiente = false;
+  var obs = new MutationObserver(function () {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(function () { pendiente = false; marcar(); });
+  });
+
+  obs.observe(document.documentElement, { childList: true, subtree: true });
+  marcar();
+})();
+</script>
 </head>
 <body>
 </body>
