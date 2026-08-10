@@ -1,0 +1,34 @@
+{
+  "proyectos": [
+    {
+      "imagen_antes": "/fotos/antes1.jpg",
+      "imagen_despues": "/fotos/despues1.jpg",
+      "titulo_es": "Recámara y techo de madera",
+      "descripcion_es": "Madera de pino sin tratar convertida en un carbón profundo y parejo — paredes, tablas del techo y molduras, todo sellado y terminado en el mismo tono.",
+      "etiquetas_es": ["Interior", "Repintado completo", "Techo incluido"],
+      "titulo_en": "Bedroom & wood ceiling",
+      "descripcion_en": "Bare pine panelling turned into a deep, even charcoal — walls, ceiling boards and trim, all sealed and finished in the same tone.",
+      "etiquetas_en": ["Interior", "Full repaint", "Ceiling included"]
+    },
+    {
+      "imagen_antes": "/fotos/antes2.jpg",
+      "imagen_despues": "/fotos/despues2.jpg",
+      "titulo_es": "Porche y molduras",
+      "descripcion_es": "Ladrillo, escalones y plantas cubiertos primero; luego columnas, aleros y barandales devueltos a un blanco limpio y parejo.",
+      "etiquetas_es": ["Exterior", "Preparación + pintura", "Todo enmascarado"],
+      "titulo_en": "Front porch & trim",
+      "descripcion_en": "Brick, steps and plants all masked off first, then columns, soffits and railings brought back to a clean, even white.",
+      "etiquetas_en": ["Exterior", "Prep + repaint", "Fully masked"]
+    },
+    {
+      "imagen_antes": "/fotos/antes3.jpg",
+      "imagen_despues": "/fotos/despues3.jpg",
+      "titulo_es": "Techo de cocina y molduras",
+      "descripcion_es": "De un techo abierto con las vigas a la vista a un acabado plano y sin uniones — molduras y remates cortados a mano.",
+      "etiquetas_es": ["Interior", "Techos", "Molduras"],
+      "titulo_en": "Kitchen ceiling & trim",
+      "descripcion_en": "From an opened-up ceiling with exposed joists to a flat, seamless finish — mouldings and trim cut in by hand.",
+      "etiquetas_en": ["Interior", "Ceilings", "Mouldings"]
+    }
+  ]
+}

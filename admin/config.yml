@@ -57,15 +57,21 @@ site_url: https://claudiapainting.com
 
 collections:
   - name: galeria
-    label: Galería
+    label: 1 · Galería de fotos
     files:
       - name: fotos
-        label: Fotos de la galería
+        label: 1 · Galería de fotos
         file: datos/galeria.json
+        icon: photo_library
         description: >-
-          Aquí se agregan, quitan y reordenan las fotos que aparecen en la
-          sección "Nuestro trabajo" de la página. Arrastre las tarjetas para
-          cambiar el orden. Los contadores de los filtros se actualizan solos.
+          ESTA ES LA CUADRÍCULA DE FOTOS SUELTAS, la sección de la página que
+          dice "Una galería de casas reales", con los filtros de Interiores /
+          Exteriores / Proceso.
+          Aquí va UNA foto por tarjeta.
+          Si lo que quiere es publicar un antes y un después juntos, use la
+          otra sección del menú: "2 · Antes y después".
+          Para cambiar el orden en que salen, arrastre las tarjetas. Para
+          borrar una foto, use la X de su tarjeta y luego guarde.
         fields:
           - name: fotos
             label: Fotos
@@ -135,3 +141,83 @@ collections:
                   - { label: 'Alta (3/4)', value: '3/4' }
                   - { label: 'Media (4/5)', value: '4/5' }
                   - { label: 'Cuadrada (1/1)', value: '1/1' }
+
+  ## ════════════════════════════════════════════════════════
+  - name: antes-despues
+    label: 2 · Antes y después
+    files:
+      - name: proyectos
+        label: 2 · Antes y después
+        file: datos/antes-despues.json
+        icon: compare
+        description: >-
+          ESTA ES LA SECCIÓN DE PAREJAS DE FOTOS, la que en la página dice
+          "Antes y después".
+          Cada tarjeta lleva DOS fotos del mismo lugar: cómo estaba antes y
+          cómo quedó al terminar.
+          Procure que las dos fotos estén tomadas desde el mismo ángulo, así
+          se aprecia mejor el cambio.
+          Si solo tiene una foto suelta, va en la otra sección del menú:
+          "1 · Galería de fotos".
+        fields:
+          - name: proyectos
+            label: Proyectos
+            label_singular: Proyecto
+            widget: list
+            allow_add: true
+            collapsed: true
+            summary: '{{fields.titulo_es}}'
+            fields:
+
+              - name: imagen_antes
+                label: Foto de ANTES
+                widget: image
+                required: true
+                hint: Cómo estaba el lugar antes de empezar a pintar.
+
+              - name: imagen_despues
+                label: Foto de DESPUÉS
+                widget: image
+                required: true
+                hint: El mismo lugar ya terminado.
+
+              - name: titulo_es
+                label: Título (español)
+                widget: string
+                required: true
+                hint: 'Ejemplo: Recámara y techo de madera'
+
+              - name: descripcion_es
+                label: Descripción (español)
+                widget: text
+                required: true
+                hint: >-
+                  Dos o tres renglones contando qué se hizo. Máximo 600
+                  caracteres.
+
+              - name: etiquetas_es
+                label: Etiquetas (español)
+                widget: list
+                required: false
+                max: 3
+                hint: >-
+                  Hasta 3 palabras cortas que salen como pastillas debajo del
+                  texto. Ejemplo: Interior · Repintado completo · Techo incluido
+
+              - name: titulo_en
+                label: Título (inglés)
+                widget: string
+                required: true
+                hint: 'Ejemplo: Bedroom & wood ceiling'
+
+              - name: descripcion_en
+                label: Descripción (inglés)
+                widget: text
+                required: true
+
+              - name: etiquetas_en
+                label: Etiquetas (inglés)
+                widget: list
+                required: false
+                max: 3
+                hint: 'Las mismas 3 etiquetas, en inglés.'
