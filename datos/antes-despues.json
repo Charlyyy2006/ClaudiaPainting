@@ -53,6 +53,24 @@
         "Ceilings",
         "Mouldings"
       ]
+    },
+    {
+      "imagen_antes": "/fotos/6543479c-990b-454f-bb82-2e7bedab750f.jpeg",
+      "imagen_despues": "/fotos/a0b76799-fdc6-48b1-a6e4-dec966ca0d9a.jpeg",
+      "titulo_es": "Barnizado para puerta exterior",
+      "descripcion_es": "Restauración completa de puerta principal: retiramos el acabado gastado, preparamos la superficie y aplicamos tinte protector de larga duración para intemperie.",
+      "etiquetas_es": [
+        "Exterior",
+        "Madera",
+        "Barnizado"
+      ],
+      "titulo_en": "Staining for exterior door",
+      "descripcion_en": "Complete front door restoration: stripped old finish, prepped the surface, and applied weather-resistant exterior stain for maximum durability.",
+      "etiquetas_en": [
+        "Exterior",
+        "Wood Staining",
+        "Refinishing"
+      ]
     }
   ]
 }
