@@ -3,9 +3,14 @@
 ## ══════════════════════════════════════════════════════════
 
 [build]
-  ## el sitio es estático: no hay nada que compilar,
-  ## se publica la carpeta tal cual
-  publish = "."
+  ## La página está hecha en Flutter (carpeta sitio_flutter/).
+  ## Se compila en la computadora con sitio_flutter/compilar.ps1,
+  ## que deja el resultado en sitio/. Netlify NO compila Flutter:
+  ## solo junta sitio/ con el panel, los datos y las fotos.
+  ## Por eso una foto subida desde el panel se publica sola, sin
+  ## tener que volver a compilar nada.
+  command = "rm -rf publicar && mkdir publicar && cp -r sitio/. publicar/ && cp -r admin datos fotos logo.png robots.txt sitemap.xml publicar/"
+  publish = "publicar"
 
 ## ── Cabeceras de seguridad para todo el sitio ──────────────
 [[headers]]

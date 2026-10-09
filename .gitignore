@@ -3,6 +3,9 @@
 .claude/
 
 
+# Carpeta que arma Netlify al publicar (sitio/ + panel + fotos)
+publicar/
+
 # Basura de sistema
 Thumbs.db
 desktop.ini
