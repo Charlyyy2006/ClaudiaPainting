@@ -61,7 +61,9 @@ class _PaginaState extends State<Pagina> {
   final _subir = ValueNotifier(false);
 
   /// una llave por sección, para poder bajar hasta ella
-  final _llaves = {for (final id in ['home', ...menuSecciones]) id: GlobalKey()};
+  final _llaves = {
+    for (final id in ['home', ...menuSecciones]) id: GlobalKey(),
+  };
 
   @override
   void initState() {
@@ -83,15 +85,24 @@ class _PaginaState extends State<Pagina> {
 
   void _irA(String id) {
     if (id == 'home') {
-      _scroll.animateTo(0, duration: const Duration(milliseconds: 700), curve: Curves.easeInOutCubic);
+      _scroll.animateTo(
+        0,
+        duration: const Duration(milliseconds: 700),
+        curve: Curves.easeInOutCubic,
+      );
       return;
     }
     final ctx = _llaves[id]?.currentContext;
     if (ctx == null) return;
-    Scrollable.ensureVisible(ctx, duration: const Duration(milliseconds: 700), curve: Curves.easeInOutCubic);
+    Scrollable.ensureVisible(
+      ctx,
+      duration: const Duration(milliseconds: 700),
+      curve: Curves.easeInOutCubic,
+    );
   }
 
-  Widget _marcada(String id, Widget hijo) => KeyedSubtree(key: _llaves[id], child: hijo);
+  Widget _marcada(String id, Widget hijo) =>
+      KeyedSubtree(key: _llaves[id], child: hijo);
 
   @override
   Widget build(BuildContext context) {
@@ -100,92 +111,124 @@ class _PaginaState extends State<Pagina> {
     return Scaffold(
       key: _scaffold,
       endDrawer: m.escritorio ? null : MenuMovil(irA: _irA),
-      body: Stack(children: [
-        Positioned.fill(
-          child: SingleChildScrollView(
-            controller: _scroll,
-            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-              _marcada('home', Portada(irA: _irA)),
-              const PorQue(),
-              _marcada('services', Servicios(irA: _irA)),
-              _marcada('process', const Proceso()),
-              _marcada('gallery', const Galeria()),
-              _marcada('before-after', const AntesDespues()),
-              _marcada('about', const Nosotros()),
-              _marcada('faq', const Preguntas()),
-              _marcada('contact', const Contacto()),
-              Pie(irA: _irA),
-            ]),
-          ),
-        ),
-
-        // barra de arriba
-        Positioned(
-          top: 0, left: 0, right: 0,
-          child: ValueListenableBuilder(
-            valueListenable: _solida,
-            builder: (_, solida, _) => BarraSuperior(
-              solida: solida,
-              irA: _irA,
-              abrirMenu: () => _scaffold.currentState?.openEndDrawer(),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: SingleChildScrollView(
+              controller: _scroll,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _marcada('home', Portada(irA: _irA)),
+                  const PorQue(),
+                  _marcada('services', Servicios(irA: _irA)),
+                  _marcada('process', const Proceso()),
+                  _marcada('gallery', const Galeria()),
+                  _marcada('before-after', const AntesDespues()),
+                  _marcada('about', const Nosotros()),
+                  _marcada('faq', const Preguntas()),
+                  _marcada('contact', const Contacto()),
+                  Pie(irA: _irA),
+                ],
+              ),
             ),
           ),
-        ),
 
-        // botones flotantes
-        Positioned(
-          right: m.movil ? 16 : 24,
-          bottom: m.movil ? 16 : 24,
-          child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            ValueListenableBuilder(
-              valueListenable: _subir,
-              builder: (_, visible, _) => AnimatedOpacity(
-                opacity: visible ? 1 : 0,
-                duration: const Duration(milliseconds: 250),
-                child: IgnorePointer(
-                  ignoring: !visible,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: IconButton(
-                      onPressed: () => _irA('home'),
-                      tooltip: 'Top',
-                      icon: const Icon(Icons.arrow_upward, color: C.tinta, size: 20),
-                      style: IconButton.styleFrom(
-                        backgroundColor: C.blanco,
-                        fixedSize: const Size(48, 48),
-                        side: const BorderSide(color: C.linea),
+          // barra de arriba
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: ValueListenableBuilder(
+              valueListenable: _solida,
+              builder: (_, solida, _) => BarraSuperior(
+                solida: solida,
+                irA: _irA,
+                abrirMenu: () => _scaffold.currentState?.openEndDrawer(),
+              ),
+            ),
+          ),
+
+          // botones flotantes
+          Positioned(
+            right: m.movil ? 16 : 24,
+            bottom: m.movil ? 16 : 24,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                ValueListenableBuilder(
+                  valueListenable: _subir,
+                  builder: (_, visible, _) => AnimatedOpacity(
+                    opacity: visible ? 1 : 0,
+                    duration: const Duration(milliseconds: 250),
+                    child: IgnorePointer(
+                      ignoring: !visible,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: IconButton(
+                          onPressed: () => _irA('home'),
+                          tooltip: 'Top',
+                          icon: const Icon(
+                            Icons.arrow_upward,
+                            color: C.tinta,
+                            size: 20,
+                          ),
+                          style: IconButton.styleFrom(
+                            backgroundColor: C.blanco,
+                            fixedSize: const Size(48, 48),
+                            side: const BorderSide(color: C.linea),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Enlace(
-              uri: enlaceWhatsApp(),
-              builder: (abrir) => Material(
-                color: C.wa,
-                shape: const StadiumBorder(),
-                elevation: 6,
-                shadowColor: const Color(0x6625D366),
-                child: InkWell(
-                  onTap: abrir,
-                  customBorder: const StadiumBorder(),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: m.movil ? 16 : 20, vertical: 16),
-                    child: Row(mainAxisSize: MainAxisSize.min, children: [
-                      const Icon(Icons.chat_rounded, color: Color(0xFF06301A), size: 22),
-                      if (!m.movil) ...[
-                        const SizedBox(width: 10),
-                        Text('WhatsApp', style: texto(15, color: const Color(0xFF06301A), peso: FontWeight.w600, alto: 1)),
-                      ],
-                    ]),
+                Enlace(
+                  uri: enlaceWhatsApp(),
+                  builder: (abrir) => Material(
+                    color: C.wa,
+                    shape: const StadiumBorder(),
+                    elevation: 6,
+                    shadowColor: const Color(0x6625D366),
+                    child: InkWell(
+                      onTap: abrir,
+                      customBorder: const StadiumBorder(),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: m.movil ? 16 : 20,
+                          vertical: 16,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.chat_rounded,
+                              color: Color(0xFF06301A),
+                              size: 22,
+                            ),
+                            if (!m.movil) ...[
+                              const SizedBox(width: 10),
+                              Text(
+                                'WhatsApp',
+                                style: texto(
+                                  15,
+                                  color: const Color(0xFF06301A),
+                                  peso: FontWeight.w600,
+                                  alto: 1,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ]),
-        ),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 }

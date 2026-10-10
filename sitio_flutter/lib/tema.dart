@@ -23,8 +23,12 @@ class C {
 
   /// los seis colores del logo, en orden
   static const pincel = [
-    Color(0xFF2F6FD0), Color(0xFF3C8FA0), Color(0xFF4F8A45),
-    Color(0xFFD6A63A), Color(0xFFD2762F), Color(0xFFC1543A),
+    Color(0xFF2F6FD0),
+    Color(0xFF3C8FA0),
+    Color(0xFF4F8A45),
+    Color(0xFFD6A63A),
+    Color(0xFFD2762F),
+    Color(0xFFC1543A),
   ];
 }
 
@@ -57,18 +61,41 @@ extension MedidasCtx on BuildContext {
 // Fraunces (con serifa) para títulos, Inter para todo lo demás.
 // Las dos van dentro del sitio, en assets/fonts.
 
-TextStyle titulo(double size, {Color color = C.tinta, FontStyle? estilo, FontWeight peso = FontWeight.w500}) =>
-    TextStyle(
-      fontFamily: 'Fraunces', fontSize: size, height: 1.08, letterSpacing: -size * 0.025,
-      color: color, fontWeight: peso, fontStyle: estilo,
-    );
+TextStyle titulo(
+  double size, {
+  Color color = C.tinta,
+  FontStyle? estilo,
+  FontWeight peso = FontWeight.w500,
+}) => TextStyle(
+  fontFamily: 'Fraunces',
+  fontSize: size,
+  height: 1.08,
+  letterSpacing: -size * 0.025,
+  color: color,
+  fontWeight: peso,
+  fontStyle: estilo,
+);
 
-TextStyle texto(double size, {Color color = C.gris, FontWeight peso = FontWeight.w400, double alto = 1.7}) =>
-    TextStyle(fontFamily: 'Inter', fontSize: size, height: alto, color: color, fontWeight: peso);
+TextStyle texto(
+  double size, {
+  Color color = C.gris,
+  FontWeight peso = FontWeight.w400,
+  double alto = 1.7,
+}) => TextStyle(
+  fontFamily: 'Inter',
+  fontSize: size,
+  height: alto,
+  color: color,
+  fontWeight: peso,
+);
 
 TextStyle etiqueta({Color color = C.gris}) => TextStyle(
-      fontFamily: 'Inter', fontSize: 11.5, letterSpacing: 2.2, fontWeight: FontWeight.w600, color: color,
-    );
+  fontFamily: 'Inter',
+  fontSize: 11.5,
+  letterSpacing: 2.2,
+  fontWeight: FontWeight.w600,
+  color: color,
+);
 
 ThemeData temaApp() {
   return ThemeData(
@@ -77,7 +104,9 @@ ThemeData temaApp() {
     colorScheme: ColorScheme.fromSeed(seedColor: C.acento, surface: C.fondo),
     scaffoldBackgroundColor: C.fondo,
     splashFactory: NoSplash.splashFactory,
-    textSelectionTheme: const TextSelectionThemeData(selectionColor: Color(0x403F7A4D)),
+    textSelectionTheme: const TextSelectionThemeData(
+      selectionColor: Color(0x403F7A4D),
+    ),
   );
 }
 

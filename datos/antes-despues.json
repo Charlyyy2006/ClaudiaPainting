@@ -71,6 +71,24 @@
         "Wood Staining",
         "Refinishing"
       ]
+    },
+    {
+      "imagen_antes": "/fotos/antes-sala-techo.webp",
+      "imagen_despues": "/fotos/despues-sala-techo.webp",
+      "titulo_es": "Cuarto en un solo color (color drench)",
+      "descripcion_es": "¡Hagamos este cuarto en color drench! Paredes, techo de bandeja y zoclos pintados en el mismo tono cálido, para un acabado envolvente y moderno.",
+      "etiquetas_es": [
+        "Interior",
+        "Color drench",
+        "Techos"
+      ],
+      "titulo_en": "Color-drenched room",
+      "descripcion_en": "Let's do this drench color room! Walls, tray ceiling and baseboards all wrapped in the same warm tone for a seamless, modern finish.",
+      "etiquetas_en": [
+        "Interior",
+        "Color drenching",
+        "Ceilings"
+      ]
     }
   ]
 }

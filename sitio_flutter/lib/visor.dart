@@ -39,7 +39,11 @@ void abrirVisor(BuildContext context, List<FotoVisor> fotos, int inicio) {
     transitionDuration: const Duration(milliseconds: 420),
     pageBuilder: (_, _, _) => _Visor(fotos: fotos, inicio: inicio),
     transitionBuilder: (_, anim, _, child) {
-      final curva = CurvedAnimation(parent: anim, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic);
+      final curva = CurvedAnimation(
+        parent: anim,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
       return FadeTransition(
         opacity: curva,
         child: ScaleTransition(
@@ -62,14 +66,19 @@ class _Visor extends StatefulWidget {
 }
 
 class _VisorState extends State<_Visor> {
-  late final PageController _pagina = PageController(initialPage: widget.inicio);
+  late final PageController _pagina = PageController(
+    initialPage: widget.inicio,
+  );
   late int _actual = widget.inicio;
 
   void _ir(int dir) {
     final n = widget.fotos.length;
     if (n < 2) return;
-    _pagina.animateToPage((_actual + dir + n) % n,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
+    _pagina.animateToPage(
+      (_actual + dir + n) % n,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   @override
@@ -88,79 +97,135 @@ class _VisorState extends State<_Visor> {
       bindings: {
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () => _ir(-1),
         const SingleActivator(LogicalKeyboardKey.arrowRight): () => _ir(1),
-        const SingleActivator(LogicalKeyboardKey.escape): () => Navigator.of(context).pop(),
+        const SingleActivator(LogicalKeyboardKey.escape): () =>
+            Navigator.of(context).pop(),
       },
       child: Focus(
         autofocus: true,
         child: Material(
           type: MaterialType.transparency,
           child: SafeArea(
-            child: Stack(children: [
-              // fotos
-              Positioned.fill(
-                bottom: 96,
-                top: 56,
-                child: PageView.builder(
-                  controller: _pagina,
-                  itemCount: widget.fotos.length,
-                  onPageChanged: (i) => setState(() => _actual = i),
-                  itemBuilder: (_, i) => InteractiveViewer(
-                    minScale: 1,
-                    maxScale: 4,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: m.movil ? 8 : 88),
-                      child: Foto(widget.fotos[i].ruta, fit: BoxFit.contain, descripcion: widget.fotos[i].titulo, fondo: Colors.transparent),
+            child: Stack(
+              children: [
+                // fotos
+                Positioned.fill(
+                  bottom: 96,
+                  top: 56,
+                  child: PageView.builder(
+                    controller: _pagina,
+                    itemCount: widget.fotos.length,
+                    onPageChanged: (i) => setState(() => _actual = i),
+                    itemBuilder: (_, i) => InteractiveViewer(
+                      minScale: 1,
+                      maxScale: 4,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: m.movil ? 8 : 88,
+                        ),
+                        child: Foto(
+                          widget.fotos[i].ruta,
+                          fit: BoxFit.contain,
+                          descripcion: widget.fotos[i].titulo,
+                          fondo: Colors.transparent,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              // cerrar
-              Positioned(
-                top: 8, right: 8,
-                child: _BotonRedondo(icono: Icons.close, etiqueta: tx('close'), alTocar: () => Navigator.of(context).pop()),
-              ),
-
-              // flechas (en el celular basta con deslizar)
-              if (varias && !m.movil) ...[
+                // cerrar
                 Positioned(
-                  left: 16, top: 0, bottom: 96,
-                  child: Center(child: _BotonRedondo(icono: Icons.arrow_back, etiqueta: tx('prev'), alTocar: () => _ir(-1))),
+                  top: 8,
+                  right: 8,
+                  child: _BotonRedondo(
+                    icono: Icons.close,
+                    etiqueta: tx('close'),
+                    alTocar: () => Navigator.of(context).pop(),
+                  ),
                 ),
+
+                // flechas (en el celular basta con deslizar)
+                if (varias && !m.movil) ...[
+                  Positioned(
+                    left: 16,
+                    top: 0,
+                    bottom: 96,
+                    child: Center(
+                      child: _BotonRedondo(
+                        icono: Icons.arrow_back,
+                        etiqueta: tx('prev'),
+                        alTocar: () => _ir(-1),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 16,
+                    top: 0,
+                    bottom: 96,
+                    child: Center(
+                      child: _BotonRedondo(
+                        icono: Icons.arrow_forward,
+                        etiqueta: tx('next'),
+                        alTocar: () => _ir(1),
+                      ),
+                    ),
+                  ),
+                ],
+
+                // pie de foto
                 Positioned(
-                  right: 16, top: 0, bottom: 96,
-                  child: Center(child: _BotonRedondo(icono: Icons.arrow_forward, etiqueta: tx('next'), alTocar: () => _ir(1))),
+                  left: 20,
+                  right: 20,
+                  bottom: 18,
+                  // al cambiar de foto, el texto se desvanece y sube un poco
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    switchInCurve: Curves.easeOutCubic,
+                    switchOutCurve: Curves.easeInCubic,
+                    transitionBuilder: (hijo, anim) => FadeTransition(
+                      opacity: anim,
+                      child: SlideTransition(
+                        position: Tween(
+                          begin: const Offset(0, .25),
+                          end: Offset.zero,
+                        ).animate(anim),
+                        child: hijo,
+                      ),
+                    ),
+                    child: Column(
+                      key: ValueKey(_actual),
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          foto.titulo,
+                          textAlign: TextAlign.center,
+                          style: texto(
+                            15,
+                            color: Colors.white,
+                            peso: FontWeight.w500,
+                          ),
+                        ),
+                        if (foto.subtitulo.isNotEmpty)
+                          Text(
+                            foto.subtitulo,
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: texto(13, color: Colors.white54, alto: 1.5),
+                          ),
+                        if (varias) ...[
+                          const SizedBox(height: 6),
+                          Text(
+                            '${_actual + 1} ${tx('lb_of')} ${widget.fotos.length}',
+                            style: etiqueta(color: Colors.white38),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
                 ),
               ],
-
-              // pie de foto
-              Positioned(
-                left: 20, right: 20, bottom: 18,
-                // al cambiar de foto, el texto se desvanece y sube un poco
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  switchInCurve: Curves.easeOutCubic,
-                  switchOutCurve: Curves.easeInCubic,
-                  transitionBuilder: (hijo, anim) => FadeTransition(
-                    opacity: anim,
-                    child: SlideTransition(
-                      position: Tween(begin: const Offset(0, .25), end: Offset.zero).animate(anim),
-                      child: hijo,
-                    ),
-                  ),
-                  child: Column(key: ValueKey(_actual), mainAxisSize: MainAxisSize.min, children: [
-                    Text(foto.titulo, textAlign: TextAlign.center, style: texto(15, color: Colors.white, peso: FontWeight.w500)),
-                    if (foto.subtitulo.isNotEmpty)
-                      Text(foto.subtitulo, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis,
-                          style: texto(13, color: Colors.white54, alto: 1.5)),
-                    if (varias) ...[
-                      const SizedBox(height: 6),
-                      Text('${_actual + 1} ${tx('lb_of')} ${widget.fotos.length}', style: etiqueta(color: Colors.white38)),
-                    ],
-                  ]),
-                ),
-              ),
-            ]),
+            ),
           ),
         ),
       ),
@@ -172,17 +237,21 @@ class _BotonRedondo extends StatelessWidget {
   final IconData icono;
   final String etiqueta;
   final VoidCallback alTocar;
-  const _BotonRedondo({required this.icono, required this.etiqueta, required this.alTocar});
+  const _BotonRedondo({
+    required this.icono,
+    required this.etiqueta,
+    required this.alTocar,
+  });
 
   @override
   Widget build(BuildContext context) => IconButton(
-        onPressed: alTocar,
-        tooltip: etiqueta,
-        icon: Icon(icono, color: Colors.white),
-        style: IconButton.styleFrom(
-          backgroundColor: Colors.white.withValues(alpha: .08),
-          fixedSize: const Size(48, 48),
-          side: const BorderSide(color: Colors.white24),
-        ),
-      );
+    onPressed: alTocar,
+    tooltip: etiqueta,
+    icon: Icon(icono, color: Colors.white),
+    style: IconButton.styleFrom(
+      backgroundColor: Colors.white.withValues(alpha: .08),
+      fixedSize: const Size(48, 48),
+      side: const BorderSide(color: Colors.white24),
+    ),
+  );
 }
