@@ -63,11 +63,14 @@ class Servicios extends StatelessWidget {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         MouseRegion(
           cursor: SystemMouseCursors.zoomIn,
-          child: GestureDetector(
-            onTap: () => abrirVisor(context, fotos, i),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: AspectRatio(aspectRatio: 4 / 5, child: Foto(fotos[i].ruta, descripcion: fotos[i].titulo)),
+          // Builder: así el visor crece desde esta foto y no desde la sección
+          child: Builder(
+            builder: (desde) => GestureDetector(
+              onTap: () => abrirVisor(desde, fotos, i),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: AspectRatio(aspectRatio: 4 / 5, child: Foto(fotos[i].ruta, descripcion: fotos[i].titulo)),
+              ),
             ),
           ),
         ),

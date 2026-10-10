@@ -80,44 +80,93 @@ class _Pregunta extends StatefulWidget {
   State<_Pregunta> createState() => _PreguntaState();
 }
 
-class _PreguntaState extends State<_Pregunta> {
-  bool _abierta = false;
+/// Al abrir: la respuesta se despliega hacia abajo y aparece
+/// desvaneciéndose, la pregunta se pinta de verde y el "+" gira
+/// hasta volverse una "×". Al cerrar, lo mismo al revés.
+class _PreguntaState extends State<_Pregunta> with SingleTickerProviderStateMixin {
+  late final AnimationController _anim = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 450),
+    reverseDuration: const Duration(milliseconds: 320),
+  );
+  late final _despliegue = CurvedAnimation(parent: _anim, curve: Curves.easeInOutCubic);
+  late final _aparece = CurvedAnimation(
+    parent: _anim,
+    curve: const Interval(.25, 1, curve: Curves.easeOut), // el texto entra cuando ya hay espacio
+    reverseCurve: const Interval(0, .6, curve: Curves.easeIn),
+  );
+  bool _sobre = false;
+
+  bool get _abierta => _anim.status == AnimationStatus.forward || _anim.status == AnimationStatus.completed;
+
+  void _alternar() => setState(() => _abierta ? _anim.reverse() : _anim.forward());
+
+  @override
+  void dispose() {
+    _anim.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final resaltada = _abierta || _sobre;
     return Container(
       decoration: const BoxDecoration(border: Border(top: BorderSide(color: C.linea))),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Semantics(
           button: true,
           expanded: _abierta,
-          child: InkWell(
-            onTap: () => setState(() => _abierta = !_abierta),
-            hoverColor: Colors.transparent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 22),
-              child: Row(children: [
-                Expanded(child: Text(widget.pregunta, style: texto(17, color: C.tinta, peso: FontWeight.w500, alto: 1.4))),
-                const SizedBox(width: 16),
-                AnimatedRotation(
-                  turns: _abierta ? .125 : 0,
-                  duration: const Duration(milliseconds: 250),
-                  child: const Icon(Icons.add, color: C.tinta, size: 22),
-                ),
-              ]),
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            onEnter: (_) => setState(() => _sobre = true),
+            onExit: (_) => setState(() => _sobre = false),
+            child: GestureDetector(
+              onTap: _alternar,
+              behavior: HitTestBehavior.opaque,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 22),
+                child: Row(children: [
+                  Expanded(
+                    child: AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 300),
+                      style: texto(17, color: resaltada ? C.acento : C.tinta, peso: FontWeight.w500, alto: 1.4),
+                      child: Text(widget.pregunta),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // círculo que se rellena al abrir, con el + girando
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    width: 36, height: 36,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _abierta ? C.acento : Colors.transparent,
+                      border: Border.all(color: resaltada ? C.acento : C.linea),
+                    ),
+                    child: RotationTransition(
+                      turns: Tween(begin: 0.0, end: .125).animate(_despliegue),
+                      child: Icon(Icons.add, size: 20, color: _abierta ? Colors.white : C.tinta),
+                    ),
+                  ),
+                ]),
+              ),
             ),
           ),
         ),
-        AnimatedSize(
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOutCubic,
+        SizeTransition(
+          sizeFactor: _despliegue,
           alignment: Alignment.topCenter,
-          child: _abierta
-              ? Padding(
-                  padding: const EdgeInsets.only(bottom: 24, right: 40),
-                  child: Text(widget.respuesta, style: texto(16)),
-                )
-              : const SizedBox(width: double.infinity),
+          child: FadeTransition(
+            opacity: _aparece,
+            child: SlideTransition(
+              position: Tween(begin: const Offset(0, -.15), end: Offset.zero).animate(_aparece),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 26, right: 52),
+                child: Text(widget.respuesta, style: texto(16)),
+              ),
+            ),
+          ),
         ),
       ]),
     );

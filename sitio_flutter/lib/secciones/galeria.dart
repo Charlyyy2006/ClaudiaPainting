@@ -54,7 +54,29 @@ class _GaleriaState extends State<Galeria> {
             ),
             const SizedBox(height: 28),
 
-            _Mosaico(fotos: visibles, columnas: m.escritorio ? 3 : 2, espacio: m.movil ? 12 : 24),
+            // al cambiar de filtro, las fotos se desvanecen suavemente
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 350),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              layoutBuilder: (actual, anteriores) => Stack(
+                alignment: Alignment.topCenter,
+                children: [...anteriores, ?actual],
+              ),
+              transitionBuilder: (hijo, anim) => FadeTransition(
+                opacity: anim,
+                child: SlideTransition(
+                  position: Tween(begin: const Offset(0, .015), end: Offset.zero).animate(anim),
+                  child: hijo,
+                ),
+              ),
+              child: _Mosaico(
+                key: ValueKey(_filtro),
+                fotos: visibles,
+                columnas: m.escritorio ? 3 : 2,
+                espacio: m.movil ? 12 : 24,
+              ),
+            ),
 
             const SizedBox(height: 32),
             Text(tx('gal_more'), style: texto(14, color: C.grisClaro), textAlign: TextAlign.center),
@@ -101,7 +123,7 @@ class _Mosaico extends StatelessWidget {
   final List<FotoGaleria> fotos;
   final int columnas;
   final double espacio;
-  const _Mosaico({required this.fotos, required this.columnas, required this.espacio});
+  const _Mosaico({super.key, required this.fotos, required this.columnas, required this.espacio});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +139,7 @@ class _Mosaico extends StatelessWidget {
       altos[c] += 1 / fotos[i].proporcion + 0.25; // 0.25 ≈ el pie de foto
       cols[c].add(Padding(
         padding: EdgeInsets.only(bottom: espacio * 1.4),
-        child: _Tarjeta(foto: fotos[i], alTocar: () => abrirVisor(context, visor, i)),
+        child: _Tarjeta(foto: fotos[i], alTocar: (desde) => abrirVisor(desde, visor, i)),
       ));
     }
 
@@ -132,7 +154,7 @@ class _Mosaico extends StatelessWidget {
 
 class _Tarjeta extends StatefulWidget {
   final FotoGaleria foto;
-  final VoidCallback alTocar;
+  final ValueChanged<BuildContext> alTocar; // recibe el context de la tarjeta tocada
   const _Tarjeta({required this.foto, required this.alTocar});
 
   @override
@@ -156,7 +178,7 @@ class _TarjetaState extends State<_Tarjeta> {
         onEnter: (_) => setState(() => _sobre = true),
         onExit: (_) => setState(() => _sobre = false),
         child: GestureDetector(
-          onTap: widget.alTocar,
+          onTap: () => widget.alTocar(context),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
@@ -227,7 +249,7 @@ class _Proyecto extends StatelessWidget {
       child: _Comparador(
         antes: p.antes,
         despues: p.despues,
-        alAmpliar: () => abrirVisor(context, [
+        alAmpliar: (desde) => abrirVisor(desde, [
           FotoVisor(p.antes, '${tx('tag_before')} — ${p.titulo.actual}'),
           FotoVisor(p.despues, '${tx('tag_after')} — ${p.titulo.actual}'),
         ], 0),
@@ -273,7 +295,7 @@ class _Proyecto extends StatelessWidget {
 /// izquierda se ve el antes y a la derecha el después.
 class _Comparador extends StatefulWidget {
   final String antes, despues;
-  final VoidCallback alAmpliar;
+  final ValueChanged<BuildContext> alAmpliar;
   const _Comparador({required this.antes, required this.despues, required this.alAmpliar});
 
   @override
@@ -329,7 +351,7 @@ class _ComparadorState extends State<_Comparador> {
                 Positioned(
                   right: 10, bottom: 10,
                   child: IconButton(
-                    onPressed: widget.alAmpliar,
+                    onPressed: () => widget.alAmpliar(context),
                     tooltip: '${tx('tag_before')} / ${tx('tag_after')}',
                     icon: const Icon(Icons.open_in_full, size: 18, color: C.tinta),
                     style: IconButton.styleFrom(backgroundColor: Colors.white.withValues(alpha: .92)),

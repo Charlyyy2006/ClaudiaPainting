@@ -32,14 +32,16 @@ class ClaudiaPainting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: idioma,
-      builder: (context, lang, _) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        onGenerateTitle: (_) => tx('doc_title'),
-        theme: temaApp(),
-        locale: Locale(lang),
-        home: const Pagina(),
+    return IdiomaScope(
+      child: ValueListenableBuilder(
+        valueListenable: idioma,
+        builder: (context, lang, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          onGenerateTitle: (_) => tx('doc_title'),
+          theme: temaApp(),
+          locale: Locale(lang),
+          home: const Pagina(),
+        ),
       ),
     );
   }

@@ -6,6 +6,8 @@
 // ══════════════════════════════════════════════════════════
 import 'package:flutter/material.dart';
 
+import 'textos.dart';
+
 class C {
   static const fondo = Color(0xFFFAFAF7);
   static const fondo2 = Color(0xFFF2F0EA);
@@ -43,7 +45,12 @@ class Medidas {
 }
 
 extension MedidasCtx on BuildContext {
-  Medidas get m => Medidas(MediaQuery.sizeOf(this).width);
+  /// Casi todas las secciones piden sus medidas con esto, así que de
+  /// paso quedan escuchando el idioma y se redibujan al cambiarlo.
+  Medidas get m {
+    escucharIdioma();
+    return Medidas(MediaQuery.sizeOf(this).width);
+  }
 }
 
 // ── Tipografía ──────────────────────────────────────────────

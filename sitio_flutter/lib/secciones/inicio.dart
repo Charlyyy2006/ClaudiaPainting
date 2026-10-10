@@ -101,6 +101,7 @@ class _SelectorIdioma extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.escucharIdioma();
     Widget opcion(String codigo) {
       final activo = idioma.value == codigo;
       return Semantics(

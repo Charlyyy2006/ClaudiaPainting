@@ -15,15 +15,40 @@ class FotoVisor {
   const FotoVisor(this.ruta, this.titulo, [this.subtitulo = '']);
 }
 
+/// [context] debe ser el de la foto que se tocó: el visor crece
+/// desde ese punto de la pantalla y al cerrar se encoge hacia él.
 void abrirVisor(BuildContext context, List<FotoVisor> fotos, int inicio) {
+  var desde = Alignment.center;
+  var escala = .85;
+  final caja = context.findRenderObject();
+  if (caja is RenderBox && caja.hasSize) {
+    final pantalla = MediaQuery.sizeOf(context);
+    final centro = caja.localToGlobal(caja.size.center(Offset.zero));
+    desde = Alignment(
+      (centro.dx / pantalla.width * 2 - 1).clamp(-1.0, 1.0),
+      (centro.dy / pantalla.height * 2 - 1).clamp(-1.0, 1.0),
+    );
+    escala = (caja.size.width / pantalla.width).clamp(.25, .9);
+  }
+
   showGeneralDialog(
     context: context,
     barrierColor: const Color(0xF20A0B0D),
     barrierDismissible: true,
     barrierLabel: tx('close'),
-    transitionDuration: const Duration(milliseconds: 220),
+    transitionDuration: const Duration(milliseconds: 420),
     pageBuilder: (_, _, _) => _Visor(fotos: fotos, inicio: inicio),
-    transitionBuilder: (_, anim, _, child) => FadeTransition(opacity: anim, child: child),
+    transitionBuilder: (_, anim, _, child) {
+      final curva = CurvedAnimation(parent: anim, curve: Curves.easeOutCubic, reverseCurve: Curves.easeInCubic);
+      return FadeTransition(
+        opacity: curva,
+        child: ScaleTransition(
+          scale: Tween(begin: escala, end: 1.0).animate(curva),
+          alignment: desde,
+          child: child,
+        ),
+      );
+    },
   );
 }
 
@@ -111,16 +136,29 @@ class _VisorState extends State<_Visor> {
               // pie de foto
               Positioned(
                 left: 20, right: 20, bottom: 18,
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Text(foto.titulo, textAlign: TextAlign.center, style: texto(15, color: Colors.white, peso: FontWeight.w500)),
-                  if (foto.subtitulo.isNotEmpty)
-                    Text(foto.subtitulo, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis,
-                        style: texto(13, color: Colors.white54, alto: 1.5)),
-                  if (varias) ...[
-                    const SizedBox(height: 6),
-                    Text('${_actual + 1} ${tx('lb_of')} ${widget.fotos.length}', style: etiqueta(color: Colors.white38)),
-                  ],
-                ]),
+                // al cambiar de foto, el texto se desvanece y sube un poco
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  switchInCurve: Curves.easeOutCubic,
+                  switchOutCurve: Curves.easeInCubic,
+                  transitionBuilder: (hijo, anim) => FadeTransition(
+                    opacity: anim,
+                    child: SlideTransition(
+                      position: Tween(begin: const Offset(0, .25), end: Offset.zero).animate(anim),
+                      child: hijo,
+                    ),
+                  ),
+                  child: Column(key: ValueKey(_actual), mainAxisSize: MainAxisSize.min, children: [
+                    Text(foto.titulo, textAlign: TextAlign.center, style: texto(15, color: Colors.white, peso: FontWeight.w500)),
+                    if (foto.subtitulo.isNotEmpty)
+                      Text(foto.subtitulo, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis,
+                          style: texto(13, color: Colors.white54, alto: 1.5)),
+                    if (varias) ...[
+                      const SizedBox(height: 6),
+                      Text('${_actual + 1} ${tx('lb_of')} ${widget.fotos.length}', style: etiqueta(color: Colors.white38)),
+                    ],
+                  ]),
+                ),
               ),
             ]),
           ),

@@ -6,6 +6,7 @@
 //  el panel (claudiapainting.com/admin).
 // ══════════════════════════════════════════════════════════
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +14,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 final idioma = ValueNotifier<String>('en');
 
 bool get enEspanol => idioma.value == 'es';
+
+/// Avisa a toda la página cuando cambia el idioma. Sin esto, al tocar
+/// EN / ES el idioma cambiaba por dentro pero la pantalla no se
+/// volvía a dibujar y se quedaba en el idioma con el que abrió.
+class IdiomaScope extends InheritedNotifier<ValueNotifier<String>> {
+  IdiomaScope({super.key, required super.child}) : super(notifier: idioma);
+}
+
+extension IdiomaCtx on BuildContext {
+  /// Hace que el widget que lo llama se redibuje al cambiar de idioma.
+  void escucharIdioma() => dependOnInheritedWidgetOfExactType<IdiomaScope>();
+}
 
 /// Devuelve el texto de [clave] en el idioma actual.
 String tx(String clave) => (enEspanol ? _es[clave] : null) ?? _en[clave] ?? clave;
