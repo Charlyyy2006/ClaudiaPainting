@@ -89,6 +89,24 @@
         "Color drenching",
         "Ceilings"
       ]
+    },
+    {
+      "imagen_antes": "/fotos/antes-ladrillo-exterior.webp",
+      "imagen_despues": "/fotos/despues-ladrillo-exterior.webp",
+      "titulo_es": "Ladrillo exterior y ventanal",
+      "descripcion_es": "Ventanas, techo y jardín cubiertos con plástico y papel antes de empezar; después, el ladrillo y los aleros quedaron en un blanco cálido y parejo que hace resaltar el techo de metal y el ventanal.",
+      "etiquetas_es": [
+        "Exterior",
+        "Ladrillo pintado",
+        "Todo enmascarado"
+      ],
+      "titulo_en": "Exterior brick & bay window",
+      "descripcion_en": "Windows, roof and garden masked off with plastic and paper first; then the brick and soffits were finished in a warm, even white that makes the metal roof and bay window stand out.",
+      "etiquetas_en": [
+        "Exterior",
+        "Painted brick",
+        "Fully masked"
+      ]
     }
   ]
 }

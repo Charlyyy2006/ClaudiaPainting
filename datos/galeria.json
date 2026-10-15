@@ -90,6 +90,17 @@
         "exterior"
       ],
       "forma": "3/4"
+    },
+    {
+      "imagen": "/fotos/casa-ladrillo-blanco.webp",
+      "titulo_es": "Casa de ladrillo pintada de blanco",
+      "descripcion_es": "Exterior · Ladrillo, aleros y puertas de cochera",
+      "titulo_en": "Painted white brick home",
+      "descripcion_en": "Exterior · Brick, soffits and garage doors",
+      "categorias": [
+        "exterior"
+      ],
+      "forma": "3/4"
     }
   ]
 }
